@@ -1,5 +1,5 @@
 select * from coviddeaths$ 
-select top 5 * from CovidVaccinations$
+select * from CovidVaccinations$
 select * from ['owid-covid-data$']
 
 select * from coviddeaths$ where continent is not NULL order by 3, 4
@@ -13,7 +13,7 @@ select * from coviddeaths$ where continent is not NULL order by 3, 4
 
 
 --2: Looking at the Total Cases vs Total Deaths
--- Shows the percentage of being killed by covid per country
+-- Shows the percentage of being killed by covid in Canada
 
 select [location], [date], total_cases, total_deaths, (total_deaths/total_cases)* 100 as Percentage_deaths
     from coviddeaths$
@@ -96,7 +96,7 @@ and new_cases is not NULL
 order by 1,2
 
 
---10: Countries Total Population vs Vaccinated Population
+--10: Countries Total Population vs Vaccinated Population (exclusing groups of countries with the word "income" in their title eg: "high income countries"
 
 SELECT 
         CD.LOCATION,
@@ -113,7 +113,7 @@ GROUP BY CD.LOCATION
 ORDER BY 1
 
 
---11: TOTAL POPULATION VS NEW_VACCINATIONS; use cte 
+--11: We use CTE to store the values in the previous table
 
 WITH NewTest (continent, location, date, population, new_vaccinations, Increasing_Vac_Count) 
 as
