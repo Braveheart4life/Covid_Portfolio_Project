@@ -1,0 +1,34 @@
+--14: Show the relationship between Vaccinations and ICU patients in Canada
+SELECT 
+    cd.[location],
+    cast(cd.[date] as date) as [Date],
+    max(cast(cd.icu_patients as int)) as ICU_Patients_Count,
+    max(cast(cv.people_vaccinated as int)) as No_of_Vaccinated
+from  
+    CovidDeaths$  cd  
+JOIN 
+    CovidVaccinations$ cv ON
+    cd.[location] = cv.[location] AND
+    cd.[date] = cv.[date]
+WHERE cd.icu_patients is not NULL AND
+cv.people_vaccinated is not NULL 
+    and cd.[location] = 'Canada'
+GROUP BY cd.[location],cd.[date]
+
+--15: SHow the relationship between the deaths and fully vaccinated in Canada
+SELECT
+    cd.[location],
+    cast(cd.[date] as date) as [Date],
+    cast(cd.total_deaths as int) as Total_Deaths,
+    max(cast(cv.people_vaccinated as int)) as No_of_Vaccinated
+from  
+    CovidDeaths$  cd  
+JOIN 
+    CovidVaccinations$ cv ON
+    cd.[location] = cv.[location] AND
+    cd.[date] = cv.[date]
+WHERE cd.total_deaths is not NULL AND
+cv.people_vaccinated is not NULL 
+    and cd.[location] = 'Canada'
+GROUP BY cd.[location],cd.[date],cd.total_deaths
+
